@@ -44,6 +44,10 @@ func Copy(src interface{}) interface{} {
 
 // CopyTo Copy to exist object
 func CopyTo(src interface{},dst interface{}) {
+	if src == nil {
+		return
+	}
+
 	original := reflect.ValueOf(src)
 	cpy := reflect.ValueOf(dst).Elem()
 	copyRecursive(original, cpy)
