@@ -1108,3 +1108,40 @@ func TestInterface(t *testing.T) {
 		t.Errorf("expected value %v, but it's %v", "custom copy", copiedNest.I.A)
 	}
 }
+
+
+
+func TestCopyTo(t *testing.T) {
+
+	type c2 struct {
+		A string
+		B []string
+	}
+
+	c2a := c2{A: "test", B: []string{"1", "2", "3"}}
+	var c2b c2
+	t.Logf("log %p %p", &c2b, &c2b.B)
+	CopyTo(&c2a, &c2b)
+	t.Logf("log %p %p", &c2b, &c2b.B)
+
+	t.Logf("log %+v", c2b)
+	if c2b.A != "test" {
+		t.Errorf("err %+v", c2b)
+	}
+
+	temp := Copy(c2a)
+	t.Logf("temp log %p", &temp)
+	srcv := reflect.ValueOf(temp)
+	outv := reflect.ValueOf(&c2b)
+	t.Logf("temp log %+v", outv)
+	t.Logf("temp src %+v", srcv)
+	outv.Elem().Set(srcv)
+	t.Logf("log %p %p", &c2b, &c2b.B)
+
+	srcv = reflect.ValueOf(&temp)
+	outv = reflect.ValueOf(&c2b)
+	t.Logf("temp2 log %+v", outv)
+	t.Logf("temp2 src %+v", srcv)
+	outv.Elem().Set(srcv.Elem())
+	t.Logf("log2 %p %p", &c2b, &c2b.B)
+}
