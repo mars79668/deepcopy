@@ -42,6 +42,7 @@ func Copy(src interface{}) interface{} {
 	return cpy.Interface()
 }
 
+// CopyTo Copy to exist object
 func CopyTo(src interface{},dst interface{}) {
 	original := reflect.ValueOf(src)
 	cpy := reflect.ValueOf(dst).Elem()
