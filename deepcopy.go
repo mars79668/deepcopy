@@ -42,6 +42,12 @@ func Copy(src interface{}) interface{} {
 	return cpy.Interface()
 }
 
+func CopyTo(src interface{},dst interface{}) {
+	original := reflect.ValueOf(src)
+	cpy := reflect.ValueOf(dst).Elem()
+	copyRecursive(original, cpy)
+}
+
 // copyRecursive does the actual copying of the interface. It currently has
 // limited support for what it can handle. Add as needed.
 func copyRecursive(original, cpy reflect.Value) {
